@@ -118,3 +118,4 @@ e2e/tests_output
 .idea/*
 e2e/local.log
 .history
+.Rproj.user
