@@ -1,121 +1,61 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# History files
+.Rhistory
+.Rapp.history
 
-# C extensions
-*.so
+# Session Data files
+.RData
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+# User-specific files
+.Ruserdata
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+# Example code in package build process
+*-Ex.R
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+# Output files from R CMD build
+/*.tar.gz
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-coverage.xml
-*.cover
-.hypothesis/
-.pytest_cache/
+# Output files from R CMD check
+/*.Rcheck/
 
-# Translations
-*.mo
-*.pot
+# RStudio files
+.Rproj.user/
 
-# Flask stuff:
-instance/
-.webassets-cache
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
 
-# Scrapy stuff:
-.scrapy
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.httr-oauth
 
-# Sphinx documentation
-docs/_build/
+# knitr and R markdown default cache directories
+*_cache/
+/cache/
 
-# PyBuilder
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# pyenv
-.python-version
-
-# celery beat schedule file
-celerybeat-schedule
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# Nightwatch
-e2e/tests_output
-
-# mypy
-.mypy_cache/
-
-# vuepress
-/**/.temp
-
-# node
-/**/package-lock.json
-/**/node_modules
-
-# OS specific
-/**/.DS_Store
-/**/node_modules
-
-# IDE
-/**/.vscode
-*/*/.idea/*
-/**/.idea/*
-.idea/*
-e2e/local.log
-.history
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
 .Rproj.user
+out/
+internal.R
+*.DS_Store
+
+# R Environment Variables
+.Renviron
+.Rproj.user
+
+# Data files
+/data/
+
+#Figures
+/graphics/
+*.png
+*.html
+*.pdf
+.DS_Store
+#/out*/
+/tmp*/
+*qgs*
+*doc*
+/out/
+#Archive
+/archive/
