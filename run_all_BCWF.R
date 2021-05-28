@@ -19,17 +19,26 @@ WetlandArea<-'Georgia Depression'
 SampleFileName<-'BCWF/Wetlands_for_Don_Update.csv'
 
 #Read in file and get column names to populate the Requ list
-SampleStrata<-read_csv(file.path(DataDir,SampleFileName), na="NA")
-colnames(SampleStrata)
+SampleStrataIn<-read_csv(file.path(DataDir,SampleFileName), na="NA") %>%
+  mutate(Wetland_Co=fid) %>%
+  dplyr::select(-c(Sampled, YearSampled))
+
+colnames(SampleStrataIn)
 
 ##Make a list of what attributes to populate the score card
 Requ<-c("stream_intersect" , "river_intersect", "mmwb_intersect", "lake_intersect",
         "split_by_stream",  "stream_start", "stream_end", "Verticalflow", "Bidirectional",
-        "Throughflow", "Outflow", "Inflow","max_stream_order", "granitic_bedrock", "Land_Cover", "Land_Disturbance", "BEC")
+        "Throughflow", "Outflow", "Inflow","max_stream_order", "granitic_bedrock",
+        "Land_Cover", "Land_Disturbance", "BEC")
+
 
 #Prepare the SampleStrata data
-SampleStrata<-SampleStrata %>%
+SampleStrata<-SampleStrataIn %>%
+  #filter out wetlands >500m from a road
+  dplyr::filter(dist_to_road=="<= 500m") %>%
+  #select fields used for establishing requirements
   dplyr::select(Wetland_Co=fid, all_of(Requ)) %>%
+  #set up some new fields to be populated by the sample selection
   mutate(Sampled=0) %>%
   mutate(SampleType=0) %>%
   mutate(YearSampled=0) %>%
