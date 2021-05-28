@@ -16,7 +16,7 @@ source("header.R")
 WetlandArea<-'Georgia Depression'
 
 #Expects a csv files of wetlands
-SampleFileName<-'BCWF/Wetlands_for_Don.csv'
+SampleFileName<-'BCWF/Wetlands_for_Don_Update.csv'
 
 #Read in file and get column names to populate the Requ list
 SampleStrata<-read_csv(file.path(DataDir,SampleFileName), na="NA")
@@ -25,7 +25,7 @@ colnames(SampleStrata)
 ##Make a list of what attributes to populate the score card
 Requ<-c("stream_intersect" , "river_intersect", "mmwb_intersect", "lake_intersect",
         "split_by_stream",  "stream_start", "stream_end", "Verticalflow", "Bidirectional",
-        "Throughflow", "Outflow", "Inflow","granitic_bedrock", "Land_Cover", "Land_Disturbance", "BGC_Subzone")
+        "Throughflow", "Outflow", "Inflow","max_stream_order", "granitic_bedrock", "Land_Cover", "Land_Disturbance", "BEC")
 
 #Prepare the SampleStrata data
 SampleStrata<-SampleStrata %>%
@@ -36,6 +36,7 @@ SampleStrata<-SampleStrata %>%
   #Change all requirements to character
   mutate_at(Requ, funs(as.character))
 
+SampleStrata[is.na(SampleStrata)] <- "unknown"
 
 saveRDS(SampleStrata, file = 'tmp/SampleStrata')
 
