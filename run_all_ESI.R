@@ -39,8 +39,9 @@ Requ<-c('StrataGroup','WatershedID','House_Name','Verticalflow',
 
 
 SampleStrata<-SampleStrataIn %>%
-  #filter out wetlands >500m from a road
-  dplyr::filter(Dist_to_Road=="<=500m") %>%
+  #filter out wetlands >500m from a road, but keep all Sampled and SampleType records
+  # given that some may by >500m from a road
+  dplyr::filter(Sampled>0 | SampleType>0 | kmRd==1) %>%
   #select fields used for establishing requirements and if sampled
   dplyr::select(Wetland_Co, Sampled, YearSampled, SampleType, all_of(Requ))
 
@@ -50,7 +51,7 @@ saveRDS(SampleStrata, file = 'tmp/SampleStrata')
 
 #Set variables for selection
 NWetsToSample<-100 #have to adjust NReplicates for now
-NReplicates<-4
+NReplicates<-2
 minSampled<-1
 
 source("Wet_02_clean_data.R")
@@ -58,5 +59,5 @@ source("Wet_02_clean_data.R")
 source("Wet_03.1_analysis_ReportCard_1.R")
 source("Wet_03.2_analysis_SampleRequirements.R")
 
-#source("Wet_04_output.R")
+source("Wet_04_output_ESI.R")
 

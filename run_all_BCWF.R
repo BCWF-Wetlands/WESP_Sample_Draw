@@ -16,7 +16,7 @@ source("header.R")
 WetlandArea<-'Georgia Depression'
 
 #Expects a csv files of wetlands
-SampleFileName<-'BCWF/Wetlands_for_Don_Update.csv'
+SampleFileName<-'BCWF/GD_Wetlands_May31.csv'
 
 #Sample Column names - to be added if not present,
 #note if sample columns present should be renamed to these
@@ -26,6 +26,7 @@ SampleCols <- c(Sampled = "", YearSampled = "", SampleType = "")
 SampleStrataIn<-read_csv(file.path(DataDir,SampleFileName), na="NA") %>%
   #set up some new fields to be populated by the sample selection if not already selected
   add_column(!!!SampleCols[!names(SampleCols) %in% names(.)]) %>%
+  mutate(Wetland_Co=fid) %>%
   #convert all to character
   mutate_all(as.character)
 
@@ -37,6 +38,7 @@ Requ<-c("stream_intersect" , "river_intersect", "mmwb_intersect", "lake_intersec
         "split_by_stream",  "stream_start", "stream_end", "Verticalflow", "Bidirectional",
         "Throughflow", "Outflow", "Inflow","max_stream_order", "granitic_bedrock",
         "Land_Cover", "Land_Disturbance", "BEC")
+
 
 #Prepare the SampleStrata data and apply any filters
 SampleStrata<-SampleStrataIn %>%
@@ -59,5 +61,5 @@ source("Wet_02_clean_data.R")
 source("Wet_03.1_analysis_ReportCard_1.R")
 source("Wet_03.2_analysis_SampleRequirements.R")
 
-source("Wet_04_output.R")
+source("Wet_04_output_BCWF.R")
 

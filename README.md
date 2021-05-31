@@ -19,9 +19,10 @@ requirement described by the wetland’s attributes.
 
 File can include already sampled wetlands such that the requirements
 that they met can be tracked on the score card and considered in
-subsequent sample draw.There are five core scripts that are required for
-the analysis. A run_all.R script passes files, parameters, and sampling
-requirements.
+subsequent sample draw.
+
+There are five core scripts that are required for the analysis. A
+run_all.R script passes files, parameters, and sampling requirements.
 
 -   run_all.R - 2 example are included - ESI and BCWF
 -   Wet_02_clean_data.R
