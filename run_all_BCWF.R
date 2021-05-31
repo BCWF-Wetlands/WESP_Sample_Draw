@@ -18,11 +18,18 @@ WetlandArea<-'Georgia Depression'
 #Expects a csv files of wetlands
 SampleFileName<-'BCWF/Wetlands_for_Don_Update.csv'
 
-#Read in file and get column names to populate the Requ list
-SampleStrataIn<-read_csv(file.path(DataDir,SampleFileName), na="NA") %>%
-  mutate(Wetland_Co=fid) %>%
-  dplyr::select(-c(Sampled, YearSampled))
+#Sample Column names - to be added if not present,
+#note if sample columns present should be renamed to these
+SampleCols <- c(Sampled = "", YearSampled = "", SampleType = "")
 
+#Read in file and add sampling columns if not already present
+SampleStrataIn<-read_csv(file.path(DataDir,SampleFileName), na="NA") %>%
+  #set up some new fields to be populated by the sample selection if not already selected
+  add_column(!!!SampleCols[!names(SampleCols) %in% names(.)]) %>%
+  #convert all to character
+  mutate_all(as.character)
+
+#get column names to populate the Requ list
 colnames(SampleStrataIn)
 
 ##Make a list of what attributes to populate the score card
@@ -31,24 +38,16 @@ Requ<-c("stream_intersect" , "river_intersect", "mmwb_intersect", "lake_intersec
         "Throughflow", "Outflow", "Inflow","max_stream_order", "granitic_bedrock",
         "Land_Cover", "Land_Disturbance", "BEC")
 
-
-#Prepare the SampleStrata data
+#Prepare the SampleStrata data and apply any filters
 SampleStrata<-SampleStrataIn %>%
   #filter out wetlands >500m from a road
   dplyr::filter(dist_to_road=="<= 500m") %>%
-  #select fields used for establishing requirements
-  dplyr::select(Wetland_Co=fid, all_of(Requ)) %>%
-  #set up some new fields to be populated by the sample selection
-  mutate(Sampled=0) %>%
-  mutate(SampleType=0) %>%
-  mutate(YearSampled=0) %>%
-  #Change all requirements to character
-  mutate_at(Requ, funs(as.character))
+  #select fields used for establishing requirements and if sampled
+  dplyr::select(Wetland_Co=fid, Sampled, YearSampled, SampleType, all_of(Requ))
 
 SampleStrata[is.na(SampleStrata)] <- "unknown"
 
 saveRDS(SampleStrata, file = 'tmp/SampleStrata')
-
 
 #Set variables for selection
 NWetsToSample<-100 #have to adjust NReplicates for now

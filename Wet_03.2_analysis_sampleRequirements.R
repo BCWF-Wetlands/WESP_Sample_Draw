@@ -19,7 +19,7 @@ SampleStrata<-readRDS(file='tmp/SampleStrata')
 RequireFn <- function(dataset, RequireNIn){
   dataset %>%
     group_by_(.dots=requs[RequireNIn,2]) %>%
-    dplyr::summarise(nSampled=sum(Sampled), nWets=n()) %>%
+    dplyr::summarise(nSampled=sum(as.numeric(Sampled)), nWets=n()) %>%
     dplyr::rename(setNames(requs[RequireNIn,2], 'Requirement')) %>%
     dplyr::mutate(ReqGroup=RequireNIn) %>%
     mutate(ReqGroupName=requs[RequireNIn,2])%>%

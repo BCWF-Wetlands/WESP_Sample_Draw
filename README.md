@@ -6,7 +6,9 @@ If you have bcgovr installed and you use RStudio, click the 'Insert BCDevex Badg
 
 \# WESP_Sample_Draw
 
-    Takes a csv or excel file of wetlands, where each row is a wetland with attributes describing its flow characteristics, type of adjacent land cover, disturbance, and other sample selection criteria. A report card is generated identifying how many wetlands are in each attribute category. A sample draw can be generated based on the sampling requirement described by the wetland's attributes.
+    Takes a csv file of wetlands, where each row is a wetland with attributes describing its flow characteristics, type of adjacent land cover, disturbance, and other sample selection criteria. A report card is generated identifying how many wetlands are in each attribute category. A sample draw can be generated based on the sampling requirement described by the wetland's attributes.
+
+    File can include already sampled wetlands such that the requirements that they met can be tracked on the score card and considered in subsequent sample draw.
 
 \#\#\# Usage
 
@@ -17,7 +19,8 @@ run_all.R script passes files, parameters, and sampling requirements.
 -   Wet_02_clean_data.R
 -   Wet_03.1_analysis_ReportCard_1.R - generates an initial report card
 -   Wet_03.2_analysis_sampleRequirements.R - runs the sample draw
--   Wet_04_output.R
+-   Wet_04_output.R - outputs a multi-tab spreadsheet with sample draw
+    and report card.
 
 #### Example
 
