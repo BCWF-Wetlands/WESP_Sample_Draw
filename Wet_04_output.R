@@ -13,13 +13,11 @@
 #Write out updated 2020 sampling data by Nation
 SampleStrataM<-readRDS(file = 'tmp/SampleStrataR')
 
-#Fix to output full data set  - maybe join to get?
+#Grab input data not used for sample draw and output full data set
 SampleStrataOut<- SampleStrataIn %>%
   dplyr::select(-c(Requ)) %>%
-  right_join(SampleStrataM, by=c('fid'='Wetland_Co'))
-
-SampleStrataOut <- SampleStrataOut %>%
-    dplyr::filter(Sampled==1)
+  right_join(SampleStrataM, by=c('fid'='Wetland_Co')) %>%
+  dplyr::filter(Sampled==1)
 
 ScoreCardR<-readRDS(file = 'tmp/ScoreCardR')
 
