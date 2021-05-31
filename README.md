@@ -10,9 +10,18 @@ If you have bcgovr installed and you use RStudio, click the 'Insert BCDevex Badg
 
 \#\#\# Usage
 
-    Takes a csv file of wetlands, where each row is a wetland with attributes describing its flow characteristics, type of adjacent land cover, disturbance, and other sample selection criteria. A report card is generated identifying how many wetlands are in each attribute category. A sample draw can be generated based on the sampling requirement described by the wetland's attributes.
+Takes a csv file of wetlands, where each row is a wetland with
+attributes describing its flow characteristics, type of adjacent land
+cover, disturbance, and other sample selection criteria. A report card
+is generated identifying how many wetlands are in each attribute
+category. A sample draw can be generated based on the sampling
+requirement described by the wetland’s attributes.
 
-    File can include already sampled wetlands such that the requirements that they met can be tracked on the score card and considered in subsequent sample draw.There are five core scripts that are required for the analysis. A run_all.R script passes files, parameters, and sampling requirements.
+File can include already sampled wetlands such that the requirements
+that they met can be tracked on the score card and considered in
+subsequent sample draw.There are five core scripts that are required for
+the analysis. A run_all.R script passes files, parameters, and sampling
+requirements.
 
 -   run_all.R - 2 example are included - ESI and BCWF
 -   Wet_02_clean_data.R
