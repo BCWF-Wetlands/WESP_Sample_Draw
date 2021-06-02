@@ -51,7 +51,7 @@ saveRDS(SampleStrata, file = 'tmp/SampleStrata')
 
 #Set variables for selection
 NWetsToSample<-100 #have to adjust NReplicates for now
-NReplicates<-2
+NReplicates<-1
 minSampled<-1
 
 source("Wet_02_clean_data.R")

@@ -19,6 +19,14 @@ SampleStrataOut<- SampleStrataIn %>%
   right_join(SampleStrataM, by=c('Wetland_Co')) %>%
   dplyr::filter(Sampled==1)
 
+Wetlands<-readRDS(file = '../Wetland_SkeenaESI_Monitoring_2021/tmp/AOI/Wetlands3')
+
+SampleStrataOutGeo<-Wetlands %>%
+  dplyr::select(Wetland_Co) %>%
+  mutate(Wetland_Co=as.character(Wetland_Co)) %>%
+  right_join(SampleStrataOut) %>%
+  write_sf(file.path(dataOutDir,"SampleStrataOutGeo.gpkg"),layer_options='overwrite=TRUE')
+
 ScoreCardR<-readRDS(file = 'tmp/ScoreCardR')
 
 WetData<-list(SampleStrataOut, ScoreCardR)

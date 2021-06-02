@@ -41,14 +41,14 @@ NoSamples<-list()
 #NumSampled<-1
 
 #Initialize data frame that will hold sites that are to sampled
-Wet_sampledR<-data.frame()
+#Wet_sampledR<-data.frame()
 
 #Initialize a score card listing what requirement has been sampled
 df<-lapply(requs[,1], function(i) RequireFn(SampleStrataR, i))
 ScoreCardR<-ldply(df,data.frame)
 
 #Loop through till NReplicates is met for all requirements or NWetsToSample is met
-while ((minSampled < NReplicates)) {
+while ((minSampled <= NReplicates)) {
 
  #Remove wetlands already sampled from the SampleStrata pool
    SampleStrataPool <- SampleStrataR %>%
@@ -78,17 +78,23 @@ while ((minSampled < NReplicates)) {
     dplyr::rename(setNames('Requirement',requs[NewSampIn$ReqGroup,2])) %>%
     dplyr::sample_n(1) %>%
     mutate(Sampled=1) %>%
-    mutate(SampleType=4) %>%
+    mutate(SampleType = ifelse(SampleType >0, SampleType, 5)) %>%
     mutate(YearSampled=2021) %>%
-    dplyr::select(Wetland_Co, Sampled, SampleType, YearSampled, all_of(Requ))
+    dplyr::select(Wetland_Co, Sampled, SampleType, YearSampled, all_of(Requ)) %>%
+    mutate_all(as.character)
+
   #Add to already selected wetlands
-  Wet_sampledR <- rbind(Wet_sampledR,NewSample)
+  #Wet_sampledR <- rbind(Wet_sampledR,NewSample)
   #Update Sample pool with new site
-  SampleStrataR$Sampled <- Wet_sampledR[match(SampleStrataR$Wetland_Co, Wet_sampledR$Wetland_Co),2]
-  SampleStrataR$SampleType <- Wet_sampledR[match(SampleStrataR$Wetland_Co, Wet_sampledR$Wetland_Co),3]
-  SampleStrataR$YearSampled <- Wet_sampledR[match(SampleStrataR$Wetland_Co, Wet_sampledR$Wetland_Co),4]
+  SampleStrataR <- SampleStrataR %>%
+    dplyr::filter(Wetland_Co != NewSample$Wetland_Co) %>%
+    rbind(NewSample)
+
+  #SampleStrataR$Sampled <- Wet_sampledR[match(SampleStrataR$Wetland_Co, Wet_sampledR$Wetland_Co),'Sampled']
+  #SampleStrataR$SampleType <- Wet_sampledR[match(SampleStrataR$Wetland_Co, Wet_sampledR$Wetland_Co),'SampleType']
+  #SampleStrataR$YearSampled <- Wet_sampledR[match(SampleStrataR$Wetland_Co, Wet_sampledR$Wetland_Co),'YearSampled']
   #Set NA to 0
-  SampleStrataR[is.na(SampleStrataR)] <- 0
+  SampleStrataR[is.na(SampleStrata)] <- "0"
 
   #Regenerate the score card
   df<-lapply(requs[,1], function(i) RequireFn(SampleStrataR, i))
