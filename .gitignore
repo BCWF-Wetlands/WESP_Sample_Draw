@@ -1,3 +1,8 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
 # History files
 .Rhistory
 .Rapp.history
@@ -45,17 +50,22 @@ internal.R
 
 # Data files
 /data/
+*.tif
+*.jl
 
 #Figures
 /graphics/
 *.png
 *.html
 *.pdf
+*.xlsx
 .DS_Store
 #/out*/
 /tmp*/
 *qgs*
 *doc*
 /out/
+/Test*/
+*qgz*
 #Archive
 /archive/

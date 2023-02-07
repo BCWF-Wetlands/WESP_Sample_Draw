@@ -6,16 +6,23 @@ library(WriteXLS)
 library(readxl)
 library(tibble)
 library(sf)
+library(rgdal)
 
-MonitoringSeason<-"2021"
+MonitoringSeason<-"2022"
 
 OutDir <- 'out'
-dataOutDir <- file.path(OutDir,'data')
-figsOutDir <- file.path(OutDir,'figures')
-DataDirYear <- file.path('data',MonitoringSeason)
 DataDir <- file.path('data')
-
-dir.create(file.path(OutDir), showWarnings = FALSE)
-dir.create(file.path(dataOutDir), showWarnings = FALSE)
-dir.create(DataDir, showWarnings = FALSE)
 dir.create("tmp", showWarnings = FALSE)
+dir.create(DataDir, showWarnings = FALSE)
+
+WetlandAreaL<-list('SIM_Base',c('Taiga_Planes_Base','Boreal_Plains_Base'),
+                   'Sub_Boreal','GD_Base','GD_Base_Est','Sub_Boreal_PEM')
+WetlandAreaDirL<-c('SIM_Base','Taiga_Boreal_Plains',
+                   'Sub_Boreal','GD_Base','GD_Base_Est','Sub_Boreal_PEM')
+WetlandAreaShortL<-c('SIM','TBP',
+                     'SB','GD','GD_Est','SB_PEM')
+EcoPNL<-list("SOUTHERN INTERIOR MOUNTAINS",c("BOREAL PLAINS","TAIGA PLAINS"),
+             "SUB-BOREAL INTERIOR","GEORGIA DEPRESSION","GEORGIA DEPRESSION","SUB-BOREAL INTERIOR")
+
+
+

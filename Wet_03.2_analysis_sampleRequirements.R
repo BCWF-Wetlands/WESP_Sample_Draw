@@ -21,14 +21,18 @@ RequireFn <- function(dataset, RequireNIn){
     group_by_(.dots=requs[RequireNIn,2]) %>%
     dplyr::summarise(nSampled=sum(as.numeric(Sampled)), nWets=n()) %>%
     dplyr::rename(setNames(requs[RequireNIn,2], 'Requirement')) %>%
-    dplyr::mutate(ReqGroup=RequireNIn) %>%
+    mutate(ReqGroup=RequireNIn) %>%
     mutate(ReqGroupName=requs[RequireNIn,2])%>%
-    #mutate(MaxAvailable=nWets) %>%
-    dplyr::select(ReqGroup, ReqGroupName, Requirement,nWets, nSampled)
+    mutate(ReqTarget=requs[RequireNIn,3])%>%
+    left_join(SampleP, by=c("Requirement", "ReqGroupName")) %>%
+    dplyr::select(ReqGroup, ReqGroupName, Requirement,nWets, nSampled,ReqTarget,SamplePriority)
 }
 
+#ScoreCard_2023 <- ScoreCard_2023 %>%
+#  left_join(SamplePriority)
+
 ########
-setNames(requs[1,2], 'Requirement')
+#setNames(requs[1,2], 'Requirement')
 #######
 
 #Make a list of what attributes to populate the score card and feed function
@@ -36,7 +40,10 @@ setNames(requs[1,2], 'Requirement')
 #### Start Loop  ####
 
 #Set variables
-SampleStrataR<-SampleStrata
+SampleStrataR<-SampleStrata %>%
+  mutate(SamplePriority=999) %>%
+  dplyr::select(Wetland_Co, Sampled, SamplePriority, YearSampled, SampleType, all_of(Requ))
+
 NoSamples<-list()
 #NumSampled<-1
 
@@ -45,10 +52,11 @@ NoSamples<-list()
 
 #Initialize a score card listing what requirement has been sampled
 df<-lapply(requs[,1], function(i) RequireFn(SampleStrataR, i))
-ScoreCardR<-ldply(df,data.frame)
+ScoreCard_2023<-ldply(df,data.frame)
 
 #Loop through till NReplicates is met for all requirements or NWetsToSample is met
-while ((minSampled <= NReplicates)) {
+#while ((minSampled <= NReplicates)) {
+while ((minSampled <= max(requs$RequT))) {
 
  #Remove wetlands already sampled from the SampleStrata pool
    SampleStrataPool <- SampleStrataR %>%
@@ -56,8 +64,9 @@ while ((minSampled <= NReplicates)) {
 
   #Take least common attribute of scorecard that hasn't been selected for sampling
   #However, skip those that where no more cases couldn't be found and are below NReplicates
-  NewSampIn <- ScoreCardR %>%
-    filter((nSampled < NReplicates) & nWets > nSampled) %>%
+  NewSampIn <- ScoreCard_2023 %>%
+    #filter((nSampled < NReplicates) & nWets > nSampled) %>%
+    filter((nSampled < ReqTarget) & nWets > nSampled) %>%
     filter(rank(nWets,ties.method="first")==1)
 
   #Test to see if a case was found, if not exit loop
@@ -79,9 +88,10 @@ while ((minSampled <= NReplicates)) {
     dplyr::sample_n(1) %>%
     mutate(Sampled=1) %>%
     mutate(SampleType = ifelse(SampleType >0, SampleType, 5)) %>%
-    mutate(YearSampled=2021) %>%
-    dplyr::select(Wetland_Co, Sampled, SampleType, YearSampled, all_of(Requ)) %>%
-    mutate_all(as.character)
+    mutate(YearSampled=2023) %>%
+    dplyr::select(Wetland_Co, Sampled, SamplePriority=SamplePriority.x, YearSampled, SampleType, all_of(Requ)) %>%
+    mutate_all(as.character) %>%
+    mutate_at(c("Sampled","SampleType","YearSampled"), as.numeric)
 
   #Add to already selected wetlands
   #Wet_sampledR <- rbind(Wet_sampledR,NewSample)
@@ -94,25 +104,27 @@ while ((minSampled <= NReplicates)) {
   #SampleStrataR$SampleType <- Wet_sampledR[match(SampleStrataR$Wetland_Co, Wet_sampledR$Wetland_Co),'SampleType']
   #SampleStrataR$YearSampled <- Wet_sampledR[match(SampleStrataR$Wetland_Co, Wet_sampledR$Wetland_Co),'YearSampled']
   #Set NA to 0
-  SampleStrataR[is.na(SampleStrata)] <- "0"
+  SampleStrataR[is.na(SampleStrataR)] <- "0"
 
   #Regenerate the score card
   df<-lapply(requs[,1], function(i) RequireFn(SampleStrataR, i))
-  ScoreCardR<-ldply(df,data.frame) %>%
+  ScoreCard_2023<-ldply(df,data.frame) %>%
     dplyr::filter(!Requirement %in% NoSamples)
 
   #Check if have met nSampled for requirements
-  minSampled<-min(ScoreCardR$nSampled)
+  minSampled<-min(ScoreCard_2023$nSampled)
 
   } else {
 
-  minSampled<-NReplicates+1
+    #minSampled<-NReplicates+1
+    minSampled<-max(requs$RequT)+1
 
   }
 #get another wetland to sample
 }
 
-saveRDS(SampleStrataR, file = 'tmp/SampleStrataR')
-saveRDS(ScoreCardR, file = 'tmp/ScoreCardR')
 
+saveRDS(SampleStrataR, file = 'tmp/SampleStrataR')
+saveRDS( ScoreCard_2023, file = file.path(paste0('tmp/',ScoreCardFileName,'_2023',sep='')))
+WriteXLS(ScoreCard_2023,file.path(dataOutDir,paste(ScoreCardFileName,'_2023.xlsx',sep='')))
 
