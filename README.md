@@ -68,9 +68,3 @@ to abide by its terms.
 
 ------------------------------------------------------------------------
 
-*This project was created using the
-[bcgovr](https://github.com/bcgov/bcgovr) package.*
-[![img](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
-
-This repository is maintained by
-[ENVEcosystems](https://github.com/orgs/bcgov/teams/envecosystems/members).
