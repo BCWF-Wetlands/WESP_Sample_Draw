@@ -14,7 +14,7 @@ source("header.R")
 
 #Select an EcoProvince(s)
 #one of: 1-SIM, 2-TBP, 3-SB, 4-GD, 5-GD_Est, 6-SB_PEM
-EcoP<-6
+EcoP<-4
 
 WetlandArea<-WetlandAreaL[EcoP]
 WetlandAreaDir<-WetlandAreaDirL[EcoP]
@@ -63,8 +63,8 @@ colnames(SampleStrataIn)
 
 #Set variables for selection
 NWetsToSample<-100 #have to adjust NReplicates for now
-NReplicates<-3
-minSampled<-1
+NReplicates<-4
+minSampled<-0
 
 #Requ<-c("stream_intersect" , "river_intersect", "mmwb_intersect", "lake_intersect",
 #        "split_by_stream",  "stream_start", "stream_end", "Verticalflow", "Bidirectional",
