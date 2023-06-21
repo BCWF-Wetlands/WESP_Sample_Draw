@@ -46,7 +46,7 @@ SampleStrataR<-SampleStrata %>%
 
 NoSamples<-list()
 #NumSampled<-1
-#Test
+#Test2
 
 #Initialize data frame that will hold sites that are to sampled
 #Wet_sampledR<-data.frame()
