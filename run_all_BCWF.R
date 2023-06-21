@@ -13,8 +13,8 @@
 source("header.R")
 
 #Select an EcoProvince(s)
-#one of: 1-SIM, 2-TBP, 3-SB, 4-GD, 5-GD_Est, 6-SB_PEM
-EcoP<-4
+#one of: 1-SIM, 2-TBP, 3-SB, 4-GD, 5-GD_Est, 6-SB_PEM, 7-SI
+EcoP<-7
 
 WetlandArea<-WetlandAreaL[EcoP]
 WetlandAreaDir<-WetlandAreaDirL[EcoP]
