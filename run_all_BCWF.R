@@ -63,7 +63,7 @@ colnames(SampleStrataIn)
 
 #Set variables for selection
 NWetsToSample<-100 #have to adjust NReplicates for now
-NReplicates<-4
+NReplicates<-7
 minSampled<-0
 
 #Requ<-c("stream_intersect" , "river_intersect", "mmwb_intersect", "lake_intersect",
