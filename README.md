@@ -5,7 +5,6 @@ See https://github.com/BCDevExchange/Our-Project-Docs/blob/master/discussion/pro
 If you have bcgovr installed and you use RStudio, click the 'Insert BCDevex Badge' Addin. -->
 
 # WESP_Sample_Draw
-============================
 The B.C. Wildlife Federation’s Wetlands Workforce project is a collaboration with conservation organizations and First Nations working to maintain and monitor wetlands across British Columbia.   
 https://bcwf.bc.ca/initiatives/wetlands-workforce/.  
 
